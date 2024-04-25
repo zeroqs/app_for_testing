@@ -5,14 +5,30 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/shared/ui/card'
+import { LoadingSpinner } from '@/shared/ui/loading-spinner'
 
 const Courses = () => {
   const { tests, isLoading, error } = useFetchTests()
   const navigate = useNavigate()
+
+  if (error) {
+    return (
+      <div className="flex flex-col  max-w-screen-xl m-auto gap-4 px-4 py-2">
+        {error}
+      </div>
+    )
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col  max-w-screen-xl m-auto gap-4 px-4 py-2">
+        <LoadingSpinner />
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col  max-w-screen-xl m-auto gap-4 px-4 py-2">
