@@ -12,6 +12,13 @@ module.exports = {
       },
     },
     extend: {
+      gridTemplateColumns: {
+        courses: 'repeat(3, minmax(0, 1fr))',
+      },
+      boxShadow: {
+        custom:
+          '0 12px 10px 0 rgba(0, 0, 0, .02), 0 12px 20px 0 rgba(0, 0, 0, .03), 0 20px 28px 0 rgba(0, 0, 0, .04)',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

@@ -35,11 +35,11 @@ const Test = () => {
 
   const { result, isLoading, error, fetchResults } = useFetchTestResult()
 
-  const state = location.state as Question[]
+  const state = location.state as Question[] | undefined
   const { toast } = useToast()
 
   const FormSchema = z.object({
-    answers: z.array(z.number()).length(location.state.length, {
+    answers: z.array(z.number()).length(location.state?.length || 0, {
       message: 'Пожалуйста ответье на все вопросы',
     }),
   })
@@ -56,6 +56,11 @@ const Test = () => {
     const answers = data.answers
     setOpen(true)
     fetchResults(answers)
+  }
+
+  const resetTest = () => {
+    window.location.reload()
+    window.scrollTo({ top: 0 })
   }
 
   const handleModal = () => {
@@ -77,10 +82,18 @@ const Test = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.formState.errors.answers])
 
+  if (!state) {
+    return (
+      <div className="flex justify-center items-center min-h-80 ">
+        <span>Ошибка</span>
+      </div>
+    )
+  }
+
   return (
     <div className="flex justify-between px-4 py-2 max-w-7xl m-auto flex-col  mt-28">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className=" space-y-12">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
           <FormField
             control={form.control}
             name="answers"
@@ -95,13 +108,13 @@ const Test = () => {
                         field.value[questionIndex] = Number(value)
                       }}
                     >
-                      {question.options.map((option, answeIndex) => (
+                      {question.options.map((option, answerIndex) => (
                         <FormItem
                           key={option}
                           className="flex items-center space-x-3 space-y-0"
                         >
                           <FormControl>
-                            <RadioGroupItem value={String(answeIndex)} />
+                            <RadioGroupItem value={String(answerIndex)} />
                           </FormControl>
                           <FormLabel className="cursor-pointer font-normal">
                             {option}
@@ -131,8 +144,14 @@ const Test = () => {
                 : `Вы набрали ${result}/${state.length} баллов`}
             </AlertDialogTitle>
             <AlertDialogDescription>
-              {isLoading && <LoadingSpinner />}
-              {!isLoading && result && 'Ура'}
+              {isLoading && (
+                <div className="flex justify-center py-6">
+                  <LoadingSpinner />
+                </div>
+              )}
+              {!isLoading && result && (
+                <div className="py-6">Ваш результат: {result}</div>
+              )}
               {error && 'error'}
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -150,7 +169,9 @@ const Test = () => {
               </>
             ) : (
               <>
-                <AlertDialogCancel>Перепройти</AlertDialogCancel>
+                <AlertDialogCancel onClick={resetTest}>
+                  Перепройти
+                </AlertDialogCancel>
                 <AlertDialogAction>Закончить</AlertDialogAction>
               </>
             )}
