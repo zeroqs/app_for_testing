@@ -16,9 +16,6 @@ export function Menu() {
         <NavigationMenuItem>
           <ListItem href={RoutePath.courses} title="Курсы" />
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <ListItem href={RoutePath.account} title="Личный кабинет" />
-        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   )

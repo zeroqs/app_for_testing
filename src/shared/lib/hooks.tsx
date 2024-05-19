@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { Course } from '@/entities/Course/types'
 import { fetchTest, fetchTestResult, fetchTests } from '@/shared/lib/supabase'
@@ -9,7 +9,7 @@ export const useFetchTests = () => {
   const [isLoading, setLoading] = useState(false)
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       setLoading(true)
       try {
         const tests = await fetchTests()
@@ -32,7 +32,7 @@ export const useFetchTest = (id: number | string) => {
   const [isLoading, setLoading] = useState(false)
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       setLoading(true)
       try {
         const test = await fetchTest(Number(id))
@@ -74,5 +74,33 @@ export const useFetchTestResult = () => {
     error,
     isLoading,
     fetchResults,
+  }
+}
+
+export const useSortTests = (sortKey: number | null) => {
+  const { tests: originalTests, isLoading, error } = useFetchTests()
+
+  const [tests, setTests] = useState<Course[]>([])
+
+  useEffect(() => {
+    if (sortKey !== null) {
+      setTests(
+        [...originalTests].sort((a, b) => {
+          if (a.complexity === sortKey && b.complexity !== sortKey) {
+            return -1
+          }
+          if (a.complexity !== sortKey && b.complexity === sortKey) {
+            return 1
+          }
+          return a.complexity - b.complexity
+        }),
+      )
+    }
+  }, [sortKey])
+
+  return {
+    tests: tests.length > 0 ? tests : originalTests,
+    isLoading,
+    error,
   }
 }

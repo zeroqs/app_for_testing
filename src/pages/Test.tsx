@@ -2,9 +2,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 
+import { RoutePath } from '@/app/providers/router/config'
 import { Question } from '@/entities/Course/types'
 import { useFetchTestResult } from '@/shared/lib/hooks'
 import {
@@ -32,6 +33,7 @@ import { useToast } from '@/shared/ui/use-toast'
 const Test = () => {
   const [open, setOpen] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
 
   const { result, isLoading, error, fetchResults } = useFetchTestResult()
 
@@ -61,6 +63,10 @@ const Test = () => {
   const resetTest = () => {
     window.location.reload()
     window.scrollTo({ top: 0 })
+  }
+
+  const closeTest = () => {
+    navigate(RoutePath.courses)
   }
 
   const handleModal = () => {
@@ -172,7 +178,9 @@ const Test = () => {
                 <AlertDialogCancel onClick={resetTest}>
                   Перепройти
                 </AlertDialogCancel>
-                <AlertDialogAction>Закончить</AlertDialogAction>
+                <AlertDialogAction onClick={closeTest}>
+                  Закончить
+                </AlertDialogAction>
               </>
             )}
           </AlertDialogFooter>

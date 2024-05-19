@@ -9,4 +9,5 @@ export interface Course {
   description: string
   image: string | null
   questions: Question[]
+  complexity: number
 }
