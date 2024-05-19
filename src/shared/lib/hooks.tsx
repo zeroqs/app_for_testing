@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { Course } from '@/entities/Course/types'
 import { fetchTest, fetchTestResult, fetchTests } from '@/shared/lib/supabase'

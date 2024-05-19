@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { cutDescription } from '@/shared/lib/cut-description'
-import { useFetchTests, useSortTests } from '@/shared/lib/hooks'
+import { useSortTests } from '@/shared/lib/hooks'
 import { showComplexity } from '@/shared/lib/show-complexity'
 import {
   Card,
