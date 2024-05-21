@@ -59,7 +59,7 @@ const Lecture = () => {
           Назад
         </Button>
         <Button asChild size="lg">
-          <Link to={`/course/${state.id}/test`} state={state.questions}>
+          <Link to={`/course/${state.id}/test`} state={state}>
             Перейти к тесту
           </Link>
         </Button>
