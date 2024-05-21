@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 
 import { useFetchTests } from '@/shared/lib/hooks'
 import { ComplexityBadge } from '@/shared/ui/complexity-badge'
-import { CourseItem } from '@/shared/ui/course-item'
 import { CoursesRow } from '@/shared/ui/courses-row'
 import { ImageComponent } from '@/shared/ui/Image'
 

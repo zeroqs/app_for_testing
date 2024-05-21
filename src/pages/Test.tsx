@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 
 import { RoutePath } from '@/app/providers/router/config'
-import { Course, Question } from '@/entities/Course/types'
+import { Course } from '@/entities/Course/types'
 import { useFetchTestResult } from '@/shared/lib/hooks'
 import {
   AlertDialog,
