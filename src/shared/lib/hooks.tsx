@@ -9,7 +9,7 @@ export const useFetchTests = () => {
   const [isLoading, setLoading] = useState(false)
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       setLoading(true)
       try {
         const tests = await fetchTests()
@@ -32,7 +32,7 @@ export const useFetchTest = (id: number | string) => {
   const [isLoading, setLoading] = useState(false)
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       setLoading(true)
       try {
         const test = await fetchTest(Number(id))
@@ -54,20 +54,23 @@ export const useFetchTestResult = () => {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setLoading] = useState(false)
 
-  const fetchResults = useCallback(async (answers: number[]) => {
-    setLoading(true)
+  const fetchResults = useCallback(
+    async (answers: number[], courseId: number) => {
+      setLoading(true)
 
-    try {
-      const result = await fetchTestResult(answers)
-      setResult(result)
-    } catch (error) {
-      setError(error as string)
-      console.error(error)
-    } finally {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-      setLoading(false)
-    }
-  }, [])
+      try {
+        const result = await fetchTestResult(answers, courseId)
+        setResult(result)
+      } catch (error) {
+        setError(error as string)
+        console.error(error)
+      } finally {
+        await new Promise((resolve) => setTimeout(resolve, 2000))
+        setLoading(false)
+      }
+    },
+    [],
+  )
 
   return {
     result,

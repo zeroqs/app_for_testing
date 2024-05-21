@@ -24,15 +24,13 @@ const Course = () => {
       </div>
 
       <div className="flex items-center max-w-screen-sm m-auto gap-5 ">
-        <Button
-          disabled
-          size="lg"
-          className="!pointer-events-auto	cursor-not-allowed"
-        >
-          Пройти введение
+        <Button asChild variant="outline" size="lg">
+          <Link to="/lecture" state={test}>
+            Пройти введение
+          </Link>
         </Button>
         <Button asChild size="lg">
-          <Link to={`/course/${courseId}/test`} state={test.questions}>
+          <Link to={`/course/${courseId}/test`} state={test}>
             Начать тест
           </Link>
         </Button>

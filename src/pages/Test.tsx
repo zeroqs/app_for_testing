@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 
 import { RoutePath } from '@/app/providers/router/config'
-import { Question } from '@/entities/Course/types'
+import { Course, Question } from '@/entities/Course/types'
 import { useFetchTestResult } from '@/shared/lib/hooks'
 import {
   AlertDialog,
@@ -37,11 +37,11 @@ const Test = () => {
 
   const { result, isLoading, error, fetchResults } = useFetchTestResult()
 
-  const state = location.state as Question[] | undefined
+  const state = location.state as Course | undefined
   const { toast } = useToast()
 
   const FormSchema = z.object({
-    answers: z.array(z.number()).length(location.state?.length || 0, {
+    answers: z.array(z.number()).length(location.state?.questions.length || 0, {
       message: 'Пожалуйста ответье на все вопросы',
     }),
   })
@@ -57,7 +57,7 @@ const Test = () => {
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     const answers = data.answers
     setOpen(true)
-    fetchResults(answers)
+    fetchResults(answers, state!.id)
   }
 
   const resetTest = () => {
@@ -74,6 +74,7 @@ const Test = () => {
   }
 
   useEffect(() => {
+    console.log(form.formState.errors.answers)
     if (form.formState.errors.answers) {
       toast({
         variant: 'destructive',
@@ -105,7 +106,7 @@ const Test = () => {
             name="answers"
             render={({ field }) => (
               <>
-                {state.map((question, questionIndex) => (
+                {state.questions.map((question, questionIndex) => (
                   <FormItem key={question.question_text}>
                     <FormLabel>{question.question_text}</FormLabel>
                     <RadioGroup
@@ -147,7 +148,7 @@ const Test = () => {
             <AlertDialogTitle>
               {isLoading
                 ? 'Сверяем ответы'
-                : `Вы набрали ${result}/${state.length} баллов`}
+                : `Вы набрали ${result}/${state.questions.length} баллов`}
             </AlertDialogTitle>
             <AlertDialogDescription>
               {isLoading && (

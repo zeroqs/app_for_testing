@@ -34,8 +34,12 @@ export const fetchTest = async (id: number): Promise<Course> => {
   return test[0]
 }
 
-export const fetchTestResult = async (answers: number[]): Promise<number> => {
+export const fetchTestResult = async (
+  answers: number[],
+  courseId: number,
+): Promise<number> => {
   const { data: test, error } = await supabase.rpc('check_answers', {
+    test_id: courseId,
     answer_indices: answers,
   })
 

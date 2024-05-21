@@ -13,7 +13,7 @@ module.exports = {
     },
     extend: {
       gridTemplateColumns: {
-        courses: 'repeat(3, minmax(0, 1fr))',
+        courses: 'repeat(auto-fit, minmax(360px, 1fr))',
       },
       boxShadow: {
         custom:

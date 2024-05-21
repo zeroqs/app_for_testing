@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Course } from '@/entities/Course/types'
 import { CarouselItem } from '@/shared/ui/carousel'
+import { ComplexityBadge } from '@/shared/ui/complexity-badge'
 import { ImageComponent } from '@/shared/ui/Image'
 
 interface CourseItemProps {
@@ -19,6 +20,11 @@ export const CourseItem = ({ course, classNames }: CourseItemProps) => {
       className={`${classNames} $pl-1 md:basis-1/2 lg:basis-1/2 cursor-pointer`}
     >
       <div className="min-w-72 h-52 p-1 relative">
+        {course.image && (
+          <div className="absolute top-[10px] left-[10px] z-[1]">
+            <ComplexityBadge complexity={course.complexity} />
+          </div>
+        )}
         {course.image ? (
           <ImageComponent
             src={course.image}
